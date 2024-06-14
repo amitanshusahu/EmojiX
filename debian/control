@@ -1,0 +1,13 @@
+Source: EmojiX
+Section: utils
+Priority: optional
+Maintainer: Amitanshu Sahu amitanshusahu.official@gmail.com
+Build-Depends: debhelper-compat (= 12), libgtk-3-dev
+Standards-Version: 3.9.6
+Homepage: linktr.ee/amitanshusahu
+
+Package: EmojiX
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: EmojiX - blazing fast emoji picker
+ Emoji picker for linux written in c
