@@ -1,13 +1,16 @@
-Source: EmojiX
+Source: emojix
 Section: utils
 Priority: optional
-Maintainer: Amitanshu Sahu amitanshusahu.official@gmail.com
+Maintainer: Amitanshu Sahu <amitanshusahu.official@gmail.com>
 Build-Depends: debhelper-compat (= 12), libgtk-3-dev
 Standards-Version: 3.9.6
-Homepage: linktr.ee/amitanshusahu
+Homepage: https://github.com/amitanshusahu/EmojiX
 
-Package: EmojiX
+Package: emojix
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: EmojiX - blazing fast emoji picker
- Emoji picker for linux written in c
+Description: blazing fast emoji picker
+ EmojiX is a blazing fast emoji picker for Linux, written in C.
+ This application allows users to quickly search and select emojis
+ from a user-friendly interface, making it easy to use emojis in
+ various applications and contexts.

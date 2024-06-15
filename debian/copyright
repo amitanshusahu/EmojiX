@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: EmojiX
-Source: http://example.com
+Source: https://github.com/amitanshusahu/EmojiX
 
 Files: *
 Copyright: 2024 Amitanshu Sahu

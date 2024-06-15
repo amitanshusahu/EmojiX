@@ -1,1 +1,3 @@
 bin/emojix /usr/bin/
+data/emojix.desktop /usr/share/applications/
+data/Emojix.png /usr/share/pixmaps/

@@ -1,3 +1,13 @@
 obj/*.o
 bin/*
 .vscode
+
+
+# debian
+
+debian/.debhelper
+debian/emojix
+debian/debhelper*
+debian/emojix.*
+debian/files
+
