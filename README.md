@@ -16,3 +16,4 @@ https://github.com/amitanshusahu/EmojiX/assets/83657737/c3ee5ad1-57e8-4a15-8690-
 
 ## Install
 -  we have a .deb file, install it `sudo apt install ./emojix<version><arch>.deb`
+-  go to [releases](https://github.com/amitanshusahu/EmojiX/releases/) and check assets for the .deb file
