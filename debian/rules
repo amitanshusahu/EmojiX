@@ -3,3 +3,5 @@
 %:
 	dh $@
 
+override_dh_installman:
+	dh_installman debian/emojix.1
