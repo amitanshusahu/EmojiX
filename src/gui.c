@@ -16,24 +16,34 @@ void activate(GtkApplication *app, gpointer user_data)
   window = gtk_application_window_new(app);
   gtk_window_set_title(GTK_WINDOW(window), NAME);
   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
+  gtk_window_set_decorated(GTK_WINDOW(window), FALSE);        // Remove window decorations
+  gtk_window_set_resizable(GTK_WINDOW(window), FALSE);        // Allow window resizing
+  gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), TRUE); // Skip taskbar
+  gtk_window_set_keep_above(GTK_WINDOW(window), TRUE);        // Keep window
 
   // Create a CSS provider and load CSS from a string
   GtkCssProvider *provider = gtk_css_provider_new();
   const gchar *css_data =
       "#search_entry{"
+      "  min-width: 0;"
       "}"
       "#emoji_grid button{"
-      "margin-top: 5px;"
-      "padding: 2px 5px;"
+      "  padding: 2px 5px;"
+      "  min-width: 0"
       "}"
-      ".notebook tab {"
-      "  padding: 5px;"
+      "#notebook tab {"
+      "  margin: 0px;"
+      "  padding: 0px;"
+      "  min-width: 20px;"
+      "  min-height: 20px;"
+      "  font-size: 10px;"
       "}"
-      ".notebook {"
+      "#notebook {"
       "  border: none;"
+      "  min-width: 0;"
       "}"
-      ".scrolled-window {"
-      "  padding: 5px;"
+      "#scrolled-window {"
+      "  margin: 1px;"
       "}";
   gtk_css_provider_load_from_data(provider, css_data, -1, NULL);
   GdkScreen *screen = gdk_screen_get_default();
@@ -47,7 +57,7 @@ void activate(GtkApplication *app, gpointer user_data)
   gtk_container_add(GTK_CONTAINER(window), parent_grid);
 
   // Create a search entry
-  search_entry = gtk_entry_new();
+  search_entry = gtk_search_entry_new();
   gtk_widget_set_name(search_entry, "search_entry"); // for css
 
   // Attach search entry to parent_grid
@@ -55,12 +65,14 @@ void activate(GtkApplication *app, gpointer user_data)
 
   // Create a notebook
   emoji_book = gtk_notebook_new();
+  gtk_widget_set_name(emoji_book, "notebook"); // for css
 
   // Attach notebook to parent_grid
   gtk_grid_attach(GTK_GRID(parent_grid), emoji_book, 0, 1, 6, 10);
 
   // Create a scrolled window
   scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_set_name(scrolled_window, "scrolled-window"); // for css
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_size_request(scrolled_window, 0, 200); // Set minimum height
 
@@ -75,7 +87,6 @@ void activate(GtkApplication *app, gpointer user_data)
 
   // Add the scrolled window to the notebook tab
   gtk_notebook_append_page(GTK_NOTEBOOK(emoji_book), scrolled_window, gtk_label_new("all"));
-
 
   // Dynamically allocate AppWidgets
   AppWidgets *app_widgets = g_malloc(sizeof(AppWidgets));

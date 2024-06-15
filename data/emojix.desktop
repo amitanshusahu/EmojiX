@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=EmojiX
-GenericName=EmojiX
+GenericName= Emoji Picker
 Comment=Emoji Picker Written In C
 Exec=/usr/bin/emojix
 Icon=emojix
