@@ -10,6 +10,13 @@ https://github.com/amitanshusahu/EmojiX/assets/83657737/c3ee5ad1-57e8-4a15-8690-
 
 </h1>
 
+## contribute to this project
+### Features 
+  - [x] search
+  - [ ] tabs of different emojis ( all, people, celbrate )
+  - [ ] theme-selector
+  - [ ] common phrases
+
 ## depnedency
 - gtk-3
 - fonts-noto-color-emoji (font to show colored emoji)
