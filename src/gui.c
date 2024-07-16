@@ -2,6 +2,11 @@
 #include "callback.h"
 #include "gui.h"
 #include "emoji.h"
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <json-c/json.h>
 
 void activate(GtkApplication *app, gpointer user_data)
 {
@@ -16,27 +21,28 @@ void activate(GtkApplication *app, gpointer user_data)
   window = gtk_application_window_new(app);
   gtk_window_set_title(GTK_WINDOW(window), NAME);
   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
-  gtk_window_set_decorated(GTK_WINDOW(window), FALSE);        // Remove window decorations
-  gtk_window_set_resizable(GTK_WINDOW(window), FALSE);        // Allow window resizing
+  gtk_window_set_decorated(GTK_WINDOW(window), FALSE);        // no window decorations
+  gtk_window_set_resizable(GTK_WINDOW(window), FALSE);        // no window resizing
   gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), TRUE); // Skip taskbar
-  gtk_window_set_keep_above(GTK_WINDOW(window), TRUE);        // Keep window
+  gtk_window_set_keep_above(GTK_WINDOW(window), TRUE);        // Keep window above everyting
 
   // Create a CSS provider and load CSS from a string
   GtkCssProvider *provider = gtk_css_provider_new();
   const gchar *css_data =
       "#search_entry{"
-      "  min-width: 0;"
       "}"
       "#emoji_grid button{"
-      "  padding: 2px 5px;"
-      "  min-width: 0"
+      "  padding: 5px 5px;"
+      "  margin: 2px;"
+      "  min-width: 0;"
+      "  font-size: 18px;"
       "}"
       "#notebook tab {"
       "  margin: 0px;"
       "  padding: 0px;"
       "  min-width: 20px;"
       "  min-height: 20px;"
-      "  font-size: 10px;"
+      "  font-size: 12px;"
       "}"
       "#notebook {"
       "  border: none;"
@@ -58,17 +64,19 @@ void activate(GtkApplication *app, gpointer user_data)
 
   // Create a search entry
   search_entry = gtk_search_entry_new();
+  gtk_widget_set_hexpand(search_entry, TRUE); // to fill
+  gtk_widget_set_size_request(search_entry, 193, -1);
   gtk_widget_set_name(search_entry, "search_entry"); // for css
 
   // Attach search entry to parent_grid
-  gtk_grid_attach(GTK_GRID(parent_grid), search_entry, 0, 0, 6, 1);
+  gtk_grid_attach(GTK_GRID(parent_grid), search_entry, 0, 0, 1, 1);
 
   // Create a notebook
   emoji_book = gtk_notebook_new();
   gtk_widget_set_name(emoji_book, "notebook"); // for css
 
   // Attach notebook to parent_grid
-  gtk_grid_attach(GTK_GRID(parent_grid), emoji_book, 0, 1, 6, 10);
+  gtk_grid_attach(GTK_GRID(parent_grid), emoji_book, 0, 1, 1, 10);
 
   // Create a scrolled window
   scrolled_window = gtk_scrolled_window_new(NULL, NULL);
@@ -79,8 +87,8 @@ void activate(GtkApplication *app, gpointer user_data)
   // Create emoji_grid for emojis
   emoji_grid = gtk_grid_new();
   gtk_widget_set_name(emoji_grid, "emoji_grid"); // for css
-  gtk_grid_set_row_spacing(GTK_GRID(emoji_grid), 5);
-  gtk_grid_set_column_spacing(GTK_GRID(emoji_grid), 5);
+  // gtk_grid_set_row_spacing(GTK_GRID(emoji_grid), 5);
+  // gtk_grid_set_column_spacing(GTK_GRID(emoji_grid), 5);
 
   // Add emoji_grid into scrolled window
   gtk_container_add(GTK_CONTAINER(scrolled_window), emoji_grid);

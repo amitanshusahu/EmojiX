@@ -2,6 +2,11 @@
 #include "callback.h"
 #include "gui.h"
 #include "emoji.h"
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <json-c/json.h>
 
 
 int main(int argc, char **argv) {
