@@ -1,5 +1,7 @@
 #include "emoji.h"
 
+GList *selected_emojis = NULL;
+
 // Update the emoji list with image file paths
 const EmojiEntry emojis[] = {
     {"😃", "grinning face with big eyes"},

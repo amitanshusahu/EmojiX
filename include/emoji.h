@@ -3,6 +3,7 @@
 
 
 #include <stddef.h>
+#include <gtk/gtk.h>
 
 typedef struct {
     const char *emoji;
@@ -13,5 +14,6 @@ typedef struct {
 // Declaration of extern variables
 extern const EmojiEntry emojis[];
 extern const size_t NUM_EMOJIS;
+extern GList *selected_emojis;
 
 #endif // EMOJI_H

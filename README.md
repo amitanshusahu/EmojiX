@@ -13,9 +13,13 @@ https://github.com/amitanshusahu/EmojiX/assets/83657737/c3ee5ad1-57e8-4a15-8690-
 ## contribute to this project
 ### Features 
   - [x] search
-  - [ ] tabs of different emojis ( all, people, celbrate )
+  - [x] auto focused on search when opened
+  - [x] recent used emojis tab
+  - [x] select multiple emojis (hold shift)
+  - [x] keyboard navigation (tab, enter, left, right, up, down)
   - [ ] theme-selector
-  - [ ] common phrases
+  - [ ] emoji groups
+  - [ ] custom tags
 
 ## depnedency
 - gtk-3
