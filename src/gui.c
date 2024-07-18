@@ -16,6 +16,8 @@ void activate(GtkApplication *app, gpointer user_data)
   GtkWidget *search_entry;
   GtkWidget *emoji_book;
   GtkWidget *scrolled_window;
+  GtkWidget *recent_grid;
+  GtkWidget *recent_scrolled_window;
 
   // Create a window
   window = gtk_application_window_new(app);
@@ -87,19 +89,37 @@ void activate(GtkApplication *app, gpointer user_data)
   // Create emoji_grid for emojis
   emoji_grid = gtk_grid_new();
   gtk_widget_set_name(emoji_grid, "emoji_grid"); // for css
-  // gtk_grid_set_row_spacing(GTK_GRID(emoji_grid), 5);
-  // gtk_grid_set_column_spacing(GTK_GRID(emoji_grid), 5);
 
   // Add emoji_grid into scrolled window
   gtk_container_add(GTK_CONTAINER(scrolled_window), emoji_grid);
 
   // Add the scrolled window to the notebook tab
-  gtk_notebook_append_page(GTK_NOTEBOOK(emoji_book), scrolled_window, gtk_label_new("all"));
+  // tab -1 all
+  gtk_notebook_append_page(GTK_NOTEBOOK(emoji_book), scrolled_window, gtk_label_new("😊"));
+
+  // Create a scrolled window for recent emojis
+  recent_scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_set_name(recent_scrolled_window, "scrolled-window"); // for css
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(recent_scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_widget_set_size_request(recent_scrolled_window, 0, 200); // Set minimum height
+
+  // Create recent_grid for recent emojis
+  recent_grid = gtk_grid_new();
+  gtk_widget_set_name(recent_grid, "emoji_grid"); // for css
+
+  // Add recent_grid into recent scrolled window
+  gtk_container_add(GTK_CONTAINER(recent_scrolled_window), recent_grid);
+
+  // Add the recent scrolled window to the notebook tab
+  // tab - recent
+  gtk_notebook_append_page(GTK_NOTEBOOK(emoji_book), recent_scrolled_window, gtk_label_new("Recent"));
 
   // Dynamically allocate AppWidgets
   AppWidgets *app_widgets = g_malloc(sizeof(AppWidgets));
   app_widgets->grid = emoji_grid;
+  app_widgets->recent_grid = recent_grid; // add recent_grid to app_widgets
   app_widgets->search_entry = search_entry;
+  app_widgets->emoji_book = emoji_book;
   app_widgets->window = window;
 
   // Connect the "changed" signal of search_entry to the filter_emojis callback
@@ -107,6 +127,7 @@ void activate(GtkApplication *app, gpointer user_data)
 
   // Initial population of emojis
   filter_emojis(GTK_ENTRY(app_widgets->search_entry), app_widgets);
+  populate_recent_emojis(app_widgets); // populate recent emojis
 
   // Show all widgets in the window
   gtk_widget_show_all(window);
