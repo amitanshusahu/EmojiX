@@ -28,6 +28,9 @@ void activate(GtkApplication *app, gpointer user_data)
   gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), TRUE); // Skip taskbar
   gtk_window_set_keep_above(GTK_WINDOW(window), TRUE);        // Keep window above everyting
 
+  // Load the previous window position
+  get_window_position_from_config(GTK_WINDOW(window));
+
   // Create a CSS provider and load CSS from a string
   GtkCssProvider *provider = gtk_css_provider_new();
   const gchar *css_data =
@@ -128,6 +131,10 @@ void activate(GtkApplication *app, gpointer user_data)
   // Initial population of emojis
   filter_emojis(GTK_ENTRY(app_widgets->search_entry), app_widgets);
   populate_recent_emojis(app_widgets); // populate recent emojis
+  
+
+  // Connect the configure-event signal to track position changes
+  g_signal_connect(window, "configure-event", G_CALLBACK(on_configure_event), NULL);
 
   // Show all widgets in the window
   gtk_widget_show_all(window);

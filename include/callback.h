@@ -15,6 +15,9 @@ void add_recent_emoji(GList **emojis, const char *emoji);
 void check_and_add_recent_emoji(GList **emojis, const char *emoji);
 void emoji_button_clicked(GtkWidget *button, gpointer data);
 void clear_selected_emojis();
-
+void get_window_position_from_config(GtkWindow *window);
+void save_window_position(GtkWindow *window);
+char *get_window_position_file_path();
+gboolean on_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer user_data);
 
 #endif // CALLBACKS_H

@@ -264,3 +264,91 @@ void check_and_add_recent_emoji(GList **emojis, const char *emoji)
         g_list_free(last);
     }
 }
+
+// window positon persistance
+
+char *get_window_position_file_path()
+{
+    const char *data_home = getenv("XDG_DATA_HOME");
+    if (!data_home)
+    {
+        data_home = g_strconcat(g_get_home_dir(), "/.local/share", NULL);
+    }
+
+    char *dir_path = g_strconcat(data_home, "/emojix", NULL);
+    char *file_path = g_strconcat(dir_path, "/window_position.json", NULL);
+
+    // Create the directory if it doesn't exist
+    struct stat st = {0};
+    if (stat(dir_path, &st) == -1)
+    {
+        mkdir(dir_path, 0700);
+    }
+
+    g_free(dir_path);
+    return file_path;
+}
+
+// Function to save window position to JSON file
+void save_window_position(GtkWindow *window)
+{
+    char *file_path = get_window_position_file_path();
+    gint x, y;
+    gtk_window_get_position(window, &x, &y);
+
+    // Create JSON object and add window position
+    json_object *jobj = json_object_new_object();
+    json_object_object_add(jobj, "x", json_object_new_int(x));
+    json_object_object_add(jobj, "y", json_object_new_int(y));
+
+    // Save JSON object to file
+    FILE *file = fopen(file_path, "w");
+    if (file)
+    {
+        fputs(json_object_to_json_string_ext(jobj, JSON_C_TO_STRING_PRETTY), file);
+        fclose(file);
+    }
+
+    // Free JSON object
+    json_object_put(jobj);
+}
+
+// Function to get window position from JSON file
+void get_window_position_from_config(GtkWindow *window)
+{
+    char *file_path = get_window_position_file_path();
+    // Open the configuration file
+    FILE *file = fopen(file_path, "r");
+    if (file)
+    {
+        // Parse the JSON data from the file
+        struct json_object *jobj = json_object_from_file(file_path);
+        if (jobj)
+        {
+            struct json_object *jx, *jy;
+            // Extract x and y coordinates from the JSON object
+            if (json_object_object_get_ex(jobj, "x", &jx) &&
+                json_object_object_get_ex(jobj, "y", &jy))
+            {
+                gint x = json_object_get_int(jx);
+                gint y = json_object_get_int(jy);
+                // Set the window position
+                gtk_window_move(window, x, y);
+            }
+            // Free the JSON object
+            json_object_put(jobj);
+        }
+        fclose(file);
+    }
+    else
+    {
+        // Handle the case where the file does not exist or cannot be opened
+        g_print("Window position file not found or could not be opened.\n");
+    }
+}
+
+gboolean on_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer user_data) {
+    save_window_position(GTK_WINDOW(widget));
+
+    return FALSE; // Return FALSE to propagate the event further
+}
