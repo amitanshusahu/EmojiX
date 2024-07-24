@@ -17,6 +17,7 @@ https://github.com/amitanshusahu/EmojiX/assets/83657737/c3ee5ad1-57e8-4a15-8690-
   - [x] recent used emojis tab
   - [x] select multiple emojis (hold shift)
   - [x] keyboard navigation (tab, enter, left, right, up, down)
+  - [x] window positon persistance (saves last window positon) 
   - [ ] theme-selector
   - [ ] emoji groups
   - [ ] custom tags
